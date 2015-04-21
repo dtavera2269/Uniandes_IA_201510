@@ -391,7 +391,7 @@ def cornersHeuristic(state, problem):
 
     for esquina in corners:
         if not esquina in visitadas:
-            total+=util.manhattanDistance( pos, esquina )
+            total+=util.mazeDistance2(pos, esquina, state)
             count+=1
 
     #print(total)
@@ -521,7 +521,10 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        actions = search.bfs(problem)
+
+        return actions
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -557,7 +560,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        return self.food[x][y]
 
 def mazeDistance(point1, point2, gameState):
     """
