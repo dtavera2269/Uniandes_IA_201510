@@ -146,17 +146,21 @@ def uniformCostSearch(problem):
     
     src=problem.getStartState()
     estados.push((src, []),0)
-    visitados.append(src)
+    #visitados.append(src)
     while not estados.isEmpty():
         nodo, camino = estados.pop()
-        
+        #print(nodo)
+        #print()
         if problem.isGoalState(nodo):
                 return camino
-        for hijo, direccion, paso in problem.getSuccessors(nodo):
-            if not hijo in visitados:
-                visitados.append(hijo)
-                aux=camino+[direccion]
-                estados.push((hijo, aux), problem.getCostOfActions(aux))
+        if not nodo in visitados:
+            for hijo, direccion, paso in problem.getSuccessors(nodo):
+                if not hijo in visitados:
+                    aux=camino+[direccion]
+                    estados.push((hijo, aux), problem.getCostOfActions(aux))
+            visitados.append(nodo)
+        
+
 
 def nullHeuristic(state, problem=None):
     """
