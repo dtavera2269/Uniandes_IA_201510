@@ -394,9 +394,8 @@ def cornersHeuristic(state, problem):
             total+=util.manhattanDistance( pos, esquina )
             count+=1
 
-    print(total)
-    print(count)
-
+    #print(total)
+    #print(count)
     return total/count
 
 class AStarCornersAgent(SearchAgent):
