@@ -391,7 +391,7 @@ def cornersHeuristic(state, problem):
 
     for esquina in corners:
         if not esquina in visitadas:
-            total+=util.mazeDistance2(pos, esquina, state)
+            total+=util.manhattanDistance( pos, esquina )
             count+=1
 
     #print(total)
