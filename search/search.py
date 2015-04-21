@@ -201,57 +201,23 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     #util.raiseNotDefined()
-    
     estados=util.PriorityQueue() #Un estado es un objeto (<nodo, camino>)
     visitados=[]
     
     src=problem.getStartState()
-    estados.push((src, []),0)
-    visitados.append(src)
+    estados.push((src, []),0+heuristic(src,problem))
+
     while not estados.isEmpty():
         nodo, camino = estados.pop()
-        
+    
         if problem.isGoalState(nodo):
                 return camino
-        for hijo, direccion, paso in problem.getSuccessors(nodo):
-            if not hijo in visitados:
-                visitados.append(hijo)
-                aux=camino+[direccion]
-                estados.push((hijo, aux), problem.getCostOfActions(aux))
-    return []
-    """
-    print type(problem).__name__
-    src=problem.getStartState()
-    fin=src
-
-    frontera=util.PriorityQueue()
-    frontera.push(src,0)
-
-    camino=[]
-    came_from = {}
-    cost_so_far = {}
-    came_from[src] = None
-    cost_so_far[src] = 0
-    return []
-
-    while not frontera.isEmpty():
-        actual=frontera.pop()
-
-        if problem.isGoalState(actual):
-            fin=actual
-            break
-
-        for hijo, direccion, paso in problem.getSuccessors(nodo):
-            nuevoCosto=problem.getCostOfActions(aux)
-    """
-
-def reconstruct_path(came_from, start, goal, camino):
-    current = goal
-    path = [current]
-    while current != start:
-        current = came_from[current]
-        path.append(current)
-    return path
+        if not nodo in visitados:
+            for hijo, direccion, paso in problem.getSuccessors(nodo):
+                if not hijo in visitados:
+                    aux=camino+[direccion]
+                    estados.push((hijo, aux), problem.getCostOfActions(aux)+heuristic(hijo,problem))
+            visitados.append(nodo)
 
 # Abbreviations
 bfs = breadthFirstSearch
