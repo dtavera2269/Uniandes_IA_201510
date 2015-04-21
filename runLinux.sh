@@ -7,7 +7,7 @@ cd search/
 
 # 1) Test DFS 
 #python2 pacman.py -l tinyMaze -p SearchAgent -a fn=dfs
-python2 pacman.py -l mediumMaze -p SearchAgent -a fn=dfs
+#python2 pacman.py -l mediumMaze -p SearchAgent -a fn=dfs
 #python2 pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=dfs
 
 # 2) Test BFS

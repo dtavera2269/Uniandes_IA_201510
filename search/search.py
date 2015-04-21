@@ -89,6 +89,26 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     #util.raiseNotDefined()
     
+    estados=util.Stack() #Un estado es un objeto (<nodo, camino>)
+    visitados=[]
+    
+    src=problem.getStartState()
+    estados.push((src, []))
+    #visitados.append(src)
+    while not estados.isEmpty():
+        
+        nodo, camino = estados.pop()
+        if problem.isGoalState(nodo):
+            return camino
+
+        if not nodo in visitados:
+            visitados.append(nodo)
+            for hijo, direccion, paso in problem.getSuccessors(nodo):
+                estados.push((hijo, camino+[direccion]))
+    return []
+    
+    """ 
+    #Aqui queda la implementacion iterativa, tambien sirve
     visitados=[]
     camino=[]
 
@@ -106,11 +126,30 @@ def iter_dfs(visitados, nodo, camino, problem):
             if len(rta)>0:
                 return rta
     return []
+    """
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     #util.raiseNotDefined()
+    estados=util.Queue() #Un estado es un objeto (<nodo, camino>)
+    visitados=[]
+    
+    src=problem.getStartState()
+    estados.push((src, []))
+    #visitados.append(src)
+    while not estados.isEmpty():
+        
+        nodo, camino = estados.pop()
+        if problem.isGoalState(nodo):
+            return camino
+
+        if not nodo in visitados:
+            visitados.append(nodo)
+            for hijo, direccion, paso in problem.getSuccessors(nodo):
+                estados.push((hijo, camino+[direccion]))
+    return []
+    """
     estados=util.Queue() #Un estado es un objeto (<nodo, camino>)
     visitados=[] #Esto se conserva para poder probar eightpuzzle.py
     
@@ -125,22 +164,45 @@ def breadthFirstSearch(problem):
             if not hijo in visitados:
                 visitados.append(hijo)
                 estados.push((hijo, camino+[direccion]))
-                """
-                #----------------------------------------------
-                camino.append(direccion)
-                aux=list(camino) #Clona una lista, es para evitar un error de apuntadores
-                camino.pop()
-                caminos.push(aux)
-                #Una version mas corta de esta instruccion es:
-                #caminos.push(camino+[direccion])
-                """
 
     return []
+    """
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     #util.raiseNotDefined()
+    estados=util.PriorityQueue() #Un estado es un objeto (<nodo, camino>)
+    visitados=[]
+    
+    src=problem.getStartState()
+    estados.push((src, []),0)
+    
+    while not estados.isEmpty():
+        nodo, camino = estados.pop()
+        
+        if problem.isGoalState(nodo):
+                return camino
+        visitados.append(nodo)
+
+        for hijo, direccion, paso in problem.getSuccessors(nodo):
+            if not hijo in visitados:
+                aux=camino+[direccion]
+                estados.push((hijo, aux), problem.getCostOfActions(aux))
+    return []
+
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+def aStarSearch(problem, heuristic=nullHeuristic):
+    """Search the node that has the lowest combined cost and heuristic first."""
+    "*** YOUR CODE HERE ***"
+    #util.raiseNotDefined()
+    
     estados=util.PriorityQueue() #Un estado es un objeto (<nodo, camino>)
     visitados=[]
     
@@ -157,20 +219,40 @@ def uniformCostSearch(problem):
                 visitados.append(hijo)
                 aux=camino+[direccion]
                 estados.push((hijo, aux), problem.getCostOfActions(aux))
-
-def nullHeuristic(state, problem=None):
+    return []
     """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
+    print type(problem).__name__
+    src=problem.getStartState()
+    fin=src
+
+    frontera=util.PriorityQueue()
+    frontera.push(src,0)
+
+    camino=[]
+    came_from = {}
+    cost_so_far = {}
+    came_from[src] = None
+    cost_so_far[src] = 0
+    return []
+
+    while not frontera.isEmpty():
+        actual=frontera.pop()
+
+        if problem.isGoalState(actual):
+            fin=actual
+            break
+
+        for hijo, direccion, paso in problem.getSuccessors(nodo):
+            nuevoCosto=problem.getCostOfActions(aux)
     """
-    return 0
 
-def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
-
-
+def reconstruct_path(came_from, start, goal, camino):
+    current = goal
+    path = [current]
+    while current != start:
+        current = came_from[current]
+        path.append(current)
+    return path
 
 # Abbreviations
 bfs = breadthFirstSearch
